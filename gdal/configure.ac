@@ -1127,6 +1127,7 @@ dnl ---------------------------------------------------------------------------
 dnl PROJ.6 related stuff
 dnl ---------------------------------------------------------------------------
 
+PKG_PROG_PKG_CONFIG([0.21])
 PKG_CHECK_MODULES([PROJ], [proj >= 6])
 AC_SUBST(PROJ_CFLAGS)
 AC_SUBST(PROJ_LIBS)
