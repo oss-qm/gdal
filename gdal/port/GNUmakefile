@@ -7,13 +7,7 @@ else
 include GDALmake.opt
 endif
 
-ifeq ($(LIBZ_SETTING),internal)
-XTRA_OPT =      -I../frmts/zlib
-else
-XTRA_OPT =
-endif
-
-CPPFLAGS	:= $(CPPFLAGS)	$(CURL_INC) $(JSON_INCLUDE) $(XTRA_OPT) -DINST_DATA=\"$(INST_DATA)\"
+CPPFLAGS	:= $(CPPFLAGS)	$(CURL_INC) $(JSON_INCLUDE) -DINST_DATA=\"$(INST_DATA)\"
 
 CXXFLAGS	:=	$(WARN_EFFCPLUSPLUS) $(WARN_OLD_STYLE_CAST) $(CXXFLAGS)
 

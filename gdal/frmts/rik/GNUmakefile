@@ -1,15 +1,9 @@
 
 include ../../GDALmake.opt
 
-ifeq ($(LIBZ_SETTING),internal)
-XTRA_OPT =	-I../zlib
-else
-XTRA_OPT =
-endif
-
 OBJ	=	rikdataset.o
 
-CPPFLAGS	:=	$(XTRA_OPT)  $(CPPFLAGS)
+CPPFLAGS	:= $(CPPFLAGS)
 
 default:	$(OBJ:.o=.$(OBJ_EXT))
 

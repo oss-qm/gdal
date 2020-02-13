@@ -3,13 +3,7 @@ OBJ	=	ozidataset.o
 
 include ../../GDALmake.opt
 
-ifeq ($(LIBZ_SETTING),internal)
-XTRA_OPT =      -I../zlib
-else
-XTRA_OPT =
-endif
-
-CPPFLAGS	:=	 $(CPPFLAGS) $(XTRA_OPT)
+CPPFLAGS	:=	 $(CPPFLAGS)
 
 default:	$(OBJ:.o=.$(OBJ_EXT))
 

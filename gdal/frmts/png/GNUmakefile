@@ -7,11 +7,7 @@ include ../../GDALmake.opt
 
 OBJ	=	pngdataset.o
 
-ifeq ($(LIBZ_SETTING),internal)
-XTRA_OPT	:=	$(XTRA_OPT) -I../zlib
-endif
-
-CPPFLAGS	:=	$(XTRA_OPT)  $(CPPFLAGS)
+CPPFLAGS	:=	$(CPPFLAGS)
 # Enable this to compile with -Wextra -Werror and get around the jump complaint.
 # CPPFLAGS += -Wno-clobbered
 

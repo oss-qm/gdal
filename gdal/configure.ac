@@ -1104,53 +1104,17 @@ dnl ---------------------------------------------------------------------------
 dnl Check if libz is available.
 dnl ---------------------------------------------------------------------------
 
-AC_ARG_WITH(libz,[  --with-libz[=ARG]       Include libz support (ARG=internal or libz directory)],,)
+AC_ARG_WITH(libz,[  --with-libz             Include libz support],,)
 
-if test "$with_libz" = "external" -o "$with_libz" = "" -o "$with_libz" = "yes" ; then
-
-  AC_CHECK_LIB(z,deflateInit_,LIBZ_SETTING=external,LIBZ_SETTING=internal,)
-
-  if test "$LIBZ_SETTING" = "external" ; then
-    AC_CHECK_LIB(z,inflateCopy,LIBZ_SETTING=external,LIBZ_SETTING=internal,)
-    if test "$LIBZ_SETTING" = "external" ; then
-        AC_MSG_RESULT([using pre-installed libz])
-    else
-        AC_MSG_RESULT([using internal libz code as inflateCopy is missing])
-    fi
-  else
-    AC_MSG_RESULT([using internal libz code as deflateInit_ is missing])
-  fi
-
-elif test "$with_libz" != "no" -a "$with_libz" != "internal" ; then
-
-  LIBS="-L$with_libz -L$with_libz/lib $LIBS"
-
-  AC_CHECK_LIB(z,deflateInit_,LIBZ_SETTING=external,LIBZ_SETTING=internal,-L$with_libz -L$with_libz/lib -lz)
-  if test "$LIBZ_SETTING" = "external" ; then
-    AC_CHECK_LIB(z,inflateCopy,LIBZ_SETTING=external,LIBZ_SETTING=internal,-L$with_libz -L$with_libz/lib -lz)
-     if test "$LIBZ_SETTING" = "external" ; then
-        AC_MSG_RESULT([using libz library from $with_libz])
-    else
-        AC_MSG_RESULT([using internal libz code as inflateCopy from $with_libz is missing])
-    fi
-  else
-    AC_MSG_RESULT([using internal libz code as deflateInit_ from $with_libz is missing])
-  fi
-
-fi
-
-if test "$LIBZ_SETTING" = "external" ; then
-  LIBS="-lz $LIBS"
-  if test "$with_libz" != "" -a "$with_libz" != "yes" -a "$with_libz" != "external" ; then
-    EXTRA_INCLUDES="-I$with_libz -I$with_libz/include $EXTRA_INCLUDES"
-  fi
-elif test "$with_libz" = "no" ; then
-  LIBZ_SETTING=no
-  AC_MSG_RESULT([not using libz at all.])
+if test "$with_libz" != "no" ; then
+    PKG_CHECK_MODULES([LIBZ], [zlib])
+    LIBZ_SETTING="yes"
+    LIBS="$LIBZ_LIBS $LIBS"
+    EXTRA_INCLUDES="$LIBZ_CFLAGS $EXTRA_INCLUDES"
+    AC_SUBST(LIBZ_SETTING)
+    AC_MSG_RESULT([zlib enabled.])
 else
-  LIBZ_SETTING=internal
-  OPT_GDAL_FORMATS="zlib $OPT_GDAL_FORMATS"
-  AC_MSG_RESULT([using internal libz code.])
+    AC_MSG_RESULT([zlib disabled.])
 fi
 
 AC_SUBST(LIBZ_SETTING,$LIBZ_SETTING)

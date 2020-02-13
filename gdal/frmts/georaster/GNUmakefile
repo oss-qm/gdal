@@ -1,18 +1,12 @@
 include ../../GDALmake.opt
 
-ifeq ($(LIBZ_SETTING),internal)
-	XTRA_OPT =	-I../zlib
-else
-	XTRA_OPT =
-endif
-
 OBJ		=	georaster_dataset.o \
 			georaster_rasterband.o \
 			oci_wrapper.o \
 			georaster_wrapper.o \
 			cpl_vsil_ocilob.o
 
-CPPFLAGS	:=	$(GDAL_INCLUDE) $(OCI_INCLUDE) $(XTRA_OPT) $(CPPFLAGS) -fPIC
+CPPFLAGS	:=	$(GDAL_INCLUDE) $(OCI_INCLUDE) $(CPPFLAGS) -fPIC
 
 ifneq ($(JPEG_SETTING),no)
 CPPFLAGS	:=	$(CPPFLAGS) -DJPEG_SUPPORTED

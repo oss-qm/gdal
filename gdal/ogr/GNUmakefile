@@ -25,13 +25,7 @@ ifeq ($(HAVE_XERCES),yes)
 CPPFLAGS 	:=	-DHAVE_XERCES $(XERCES_INCLUDE) $(CPPFLAGS)
 endif
 
-ifeq ($(LIBZ_SETTING),internal)
-ZLIB_XTRA_OPT =      -I../frmts/zlib
-else
-ZLIB_XTRA_OPT =
-endif
-
-CPPFLAGS	:=	-Iogrsf_frmts -Iogrsf_frmts/mem -Iogrsf_frmts/geojson $(JSON_INCLUDE) -I.  $(PROJ_CFLAGS) $(CPPFLAGS) $(ZLIB_XTRA_OPT)
+CPPFLAGS	:=	-Iogrsf_frmts -Iogrsf_frmts/mem -Iogrsf_frmts/geojson $(JSON_INCLUDE) -I.  $(PROJ_CFLAGS) $(CPPFLAGS)
 
 CXXFLAGS        :=      $(WARN_EFFCPLUSPLUS) $(WARN_OLD_STYLE_CAST) $(CXXFLAGS)
 

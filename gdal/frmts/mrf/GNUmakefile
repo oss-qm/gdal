@@ -32,10 +32,6 @@ ifeq ($(JPEG_SETTING),internal)
 XTRA_OPT        :=      $(XTRA_OPT) -I../jpeg/libjpeg
 endif
 
-ifeq ($(LIBZ_SETTING),internal)
-XTRA_OPT        :=      $(XTRA_OPT) -I../zlib
-endif
-
 ifeq ($(HAVE_LERC),yes)
 ifneq ("$(wildcard libLERC)","")
 LIBLERC	= libLERC
