@@ -108,4 +108,6 @@ wget http://mirrors.edge.kernel.org/ubuntu/pool/main/u/unixodbc/unixodbc-dev_2.3
 wget http://mirrors.edge.kernel.org/ubuntu/pool/main/u/unixodbc/unixodbc_2.3.1-4.1_amd64.deb
 sudo dpkg -i --force-all libodbc1_2.3.1-4.1_amd64.deb odbcinst1debian2_2.3.1-4.1_amd64.deb odbcinst_2.3.1-4.1_amd64.deb unixodbc-dev_2.3.1-4.1_amd64.deb unixodbc_2.3.1-4.1_amd64.deb
 
+sudo apt-get install -y autoconf libtool pkg-config
+
 sudo ldconfig

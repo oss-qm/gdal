@@ -21,3 +21,5 @@ wget https://github.com/Esri/file-geodatabase-api/raw/master/FileGDB_API_1.5/Fil
 tar xzf FileGDB_API_1_5_64gcc51.tar.gz
 sudo cp FileGDB_API-64gcc51/lib/* /usr/lib
 sudo ldconfig
+
+sudo apt-get install -y autoconf libtool pkg-config

@@ -13,4 +13,7 @@ sudo apt-get install -y \
     g++-mingw-w64 \
     mingw-w64-tools \
     wine1.4-amd64 \
-    curl
+    curl \
+    autoconf \
+    libtool \
+    pkg-config

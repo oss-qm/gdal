@@ -67,3 +67,5 @@ sudo ldconfig
  tar xJf libstdc++.so.6.tar.bz2
  tar xJf install-llvm-3.7.0-light.tar.bz2
 )
+
+sudo apt-get install -y autoconf libtool pkg-config

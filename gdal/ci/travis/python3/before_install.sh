@@ -70,3 +70,5 @@ sudo make install PREFIX=/usr ZSTD_LEGACY_SUPPORT=0 CFLAGS=-O1
 cd ../..
 
 sudo ldconfig
+
+sudo apt-get install -y autoconf libtool pkg-config

@@ -5,7 +5,7 @@ set -e
 export chroot="$PWD"/buildroot.i386
 mkdir -p "$chroot$PWD"
 sudo apt-get update
-sudo apt-get install -y debootstrap libcap2-bin
+sudo apt-get install -y debootstrap libcap2-bin autoconf libtool pkg-config
 export LC_ALL=en_US.utf8
 sudo i386 debootstrap --arch=i386 trusty "$chroot"
 sudo mount --rbind /dev "$chroot/dev"

@@ -5,7 +5,7 @@ set -e
 export chroot="$PWD"/xenial
 mkdir -p "$chroot$PWD"
 sudo apt-get update
-sudo apt-get install -y debootstrap libcap2-bin dpkg docker
+sudo apt-get install -y debootstrap libcap2-bin dpkg docker autoconf libtool pkg-config
 
 # MSSQL: server side
 docker pull microsoft/mssql-server-linux:2017-latest
