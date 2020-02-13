@@ -1187,108 +1187,9 @@ dnl ---------------------------------------------------------------------------
 dnl PROJ.6 related stuff
 dnl ---------------------------------------------------------------------------
 
-AC_MSG_CHECKING([for PROJ >= 6 library])
-
-AC_ARG_WITH(proj,[  --with-proj=ARG Compile with PROJ.x (ARG=yes or path)],,)
-
-PROJ_INCLUDE=""
-if test "x$with_proj" = "xno" ; then
-
-  AC_MSG_ERROR([PROJ >= 6 is a required dependency.])
-
-else
-
-  if test "x$with_proj" = "xyes" -o "x$with_proj" = "x"; then
-    ORIG_LIBS="$LIBS"
-    LIBS="-lproj $ORIG_LIBS"
-    AC_LANG_PUSH([C++])
-    AC_CHECK_LIB(proj,proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-    AC_LANG_POP([C++])
-    if test "$PROJ_FOUND" = "no"; then
-        AC_LANG_PUSH([C++])
-        AC_CHECK_LIB(proj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-        AC_LANG_POP([C++])
-        if test "$PROJ_FOUND" = "yes"; then
-            PROJ_INCLUDE="-DPROJ_RENAME_SYMBOLS"
-        fi
-    fi
-    if test "$PROJ_FOUND" = "no"; then
-        LIBS="-linternalproj $ORIG_LIBS"
-        AC_LANG_PUSH([C++])
-        AC_CHECK_LIB(internalproj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-        AC_LANG_POP([C++])
-        if test "$PROJ_FOUND" = "yes"; then
-            PROJ_INCLUDE="-DPROJ_RENAME_SYMBOLS"
-        fi
-    fi
-    if test "$PROJ_FOUND" = "no"; then
-        AC_MSG_ERROR([PROJ 6 symbols not found])
-    fi
-    AC_CHECK_HEADERS([proj.h])
-    if test "$ac_cv_header_proj_h" = "yes" ; then
-        AC_MSG_NOTICE([proj.h found])
-    else
-        AC_MSG_ERROR([proj.h not found])
-    fi
-  else
-
-    ORIG_LIBS="$LIBS"
-    LIBS="-L$with_proj/lib -lproj $ORIG_LIBS"
-    AC_LANG_PUSH([C++])
-    AC_CHECK_LIB(proj,proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-    AC_LANG_POP([C++])
-    if test "$PROJ_FOUND" = "no"; then
-        LIBS="-L$with_proj/lib -lproj -lsqlite3 $ORIG_LIBS"
-        unset ac_cv_lib_proj_proj_create_from_wkt
-        AC_LANG_PUSH([C++])
-        AC_CHECK_LIB(proj,proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-        AC_LANG_POP([C++])
-    fi
-    if test "$PROJ_FOUND" = "no"; then
-        LIBS="-L$with_proj/lib -lproj $ORIG_LIBS"
-        AC_LANG_PUSH([C++])
-        AC_CHECK_LIB(proj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-        AC_LANG_POP([C++])
-        if test "$PROJ_FOUND" = "no"; then
-            LIBS="-L$with_proj/lib -lproj -lsqlite3 $ORIG_LIBS"
-            unset ac_cv_lib_proj_internal_proj_create_from_wkt
-            AC_LANG_PUSH([C++])
-            AC_CHECK_LIB(proj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-            AC_LANG_POP([C++])
-        fi
-        if test "$PROJ_FOUND" = "yes"; then
-            PROJ_INCLUDE="-DPROJ_RENAME_SYMBOLS"
-        fi
-    fi
-    if test "$PROJ_FOUND" = "no"; then
-        LIBS="-L$with_proj/lib -linternalproj $ORIG_LIBS"
-        AC_LANG_PUSH([C++])
-        AC_CHECK_LIB(internalproj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-        AC_LANG_POP([C++])
-        if test "$PROJ_FOUND" = "no"; then
-            LIBS="-L$with_proj/lib -linternalproj -lsqlite3 $ORIG_LIBS"
-            unset ac_cv_lib_internal_proj_internal_proj_create_from_wkt
-            AC_LANG_PUSH([C++])
-            AC_CHECK_LIB(internalproj,internal_proj_create_from_wkt,PROJ_FOUND=yes,PROJ_FOUND=no,)
-            AC_LANG_POP([C++])
-        fi
-        if test "$PROJ_FOUND" = "yes"; then
-            PROJ_INCLUDE="-DPROJ_RENAME_SYMBOLS"
-        fi
-    fi
-    if test "$PROJ_FOUND" = "no"; then
-        AC_MSG_ERROR([PROJ 6 symbols not found])
-    fi
-    if test -r "$with_proj/include/proj.h" ; then
-        PROJ_INCLUDE="$PROJ_INCLUDE -I$with_proj/include"
-        AC_MSG_NOTICE([proj.h found])
-    else
-        AC_MSG_ERROR([proj.h not found])
-    fi
-  fi
-fi
-
-AC_SUBST(PROJ_INCLUDE)
+PKG_CHECK_MODULES([PROJ], [proj >= 6])
+AC_SUBST(PROJ_CFLAGS)
+AC_SUBST(PROJ_LIBS)
 
 dnl ---------------------------------------------------------------------------
 dnl Check if liblzma is available.
@@ -4100,10 +4001,10 @@ elif test "$with_spatialite" = "yes"; then
         AC_MSG_CHECKING([for spatialite.h in /usr/include or /usr/local/include])
         if test -f "/usr/include/spatialite.h" -o -f "/usr/local/include/spatialite.h"; then
             AC_MSG_RESULT(found)
-            AC_CHECK_LIB(spatialite,spatialite_init,SPATIALITE_INIT_FOUND=yes,SPATIALITE_INIT_FOUND=no,-lsqlite3 -lproj)
+            AC_CHECK_LIB(spatialite,spatialite_init,SPATIALITE_INIT_FOUND=yes,SPATIALITE_INIT_FOUND=no,-lsqlite3 $PROJ_LIBS)
             if test "$SPATIALITE_INIT_FOUND" = "yes"; then
                 HAVE_SPATIALITE=yes
-                SPATIALITE_LIBS="-lspatialite -lsqlite3 -lproj"
+                SPATIALITE_LIBS="-lspatialite -lsqlite3 $PROJ_LIBS"
                 LIBS="$LIBS $SPATIALITE_LIBS"
                 HAVE_SQLITE3=yes
             fi

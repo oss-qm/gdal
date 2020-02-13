@@ -120,7 +120,7 @@ testdestroy: testdestroy.o
 	$(LD) $(LDFLAGS) $< $(CONFIG_LIBS) -o $@
 
 test_osr_set_proj_search_paths.o: test_osr_set_proj_search_paths.cpp
-	$(CXX) $(CXXFLAGS) $(PROJ_INCLUDE) $(PROJ_CFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) $(PROJ_CFLAGS) -c $<
 
 test_osr_set_proj_search_paths: test_osr_set_proj_search_paths.o
 	$(LD) $(LDFLAGS) $< $(CONFIG_LIBS) -o $@

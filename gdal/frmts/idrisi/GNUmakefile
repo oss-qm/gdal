@@ -4,7 +4,7 @@ include $(GDAL_ROOT)/GDALmake.opt
 
 OBJ	=	IdrisiDataset.o
 
-CPPFLAGS := $(PROJ_INCLUDE) $(PROJ_FLAGS) $(CPPFLAGS)
+CPPFLAGS += $(PROJ_CFLAGS)
 
 default:	$(OBJ:.o=.$(OBJ_EXT))
 
