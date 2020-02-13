@@ -32,10 +32,6 @@ ifeq ($(JPEG_SETTING),internal)
 XTRA_OPT        :=      $(XTRA_OPT) -I../jpeg/libjpeg
 endif
 
-ifeq ($(PNG_SETTING),internal)
-XTRA_OPT        :=      $(XTRA_OPT) -I../png/libpng -DINTERNAL_PNG
-endif
-
 ifeq ($(LIBZ_SETTING),internal)
 XTRA_OPT        :=      $(XTRA_OPT) -I../zlib
 endif

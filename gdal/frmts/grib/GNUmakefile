@@ -10,16 +10,8 @@ OBJ	=	gribdataset.o gribcreatecopy.o \
                 degrib2.o inventory.o metaname.o myerror.o grib1tab.o myutil.o metaparse.o weather.o metaprint.o grib2api.o myassert.o scan.o tendian.o gridtemplates.o drstemplates.o pdstemplates.o gbits.o g2_free.o g2_unpack1.o g2_unpack2.o g2_unpack3.o g2_unpack4.o g2_unpack5.o g2_unpack6.o g2_unpack7.o g2_info.o g2_getfld.o simunpack.o comunpack.o pack_gp.o reduce.o specunpack.o rdieee.o mkieee.o int_power.o simpack.o compack.o cmplxpack.o misspack.o \
 		dec_jpeg2000.o jpcunpack.o hazard.o
 
-ifeq ($(PNG_SETTING),internal)
-EXTRAFLAGS      :=      $(EXTRAFLAGS) -I../png/libpng -DUSE_PNG
-ifeq ($(LIBZ_SETTING),internal)
-EXTRAFLAGS      :=      $(EXTRAFLAGS) -I../zlib
-endif
-OBJ     :=      $(OBJ) pngunpack.o dec_png.o
-endif
-
-ifeq ($(PNG_SETTING),external)
-EXTRAFLAGS      :=      $(EXTRAFLAGS) -DUSE_PNG
+ifneq ($(PNG_SETTING),)
+EXTRAFLAGS      := $(EXTRAFLAGS) -DUSE_PNG $(LIBPNG_CFLAGS)
 OBJ     :=      $(OBJ) pngunpack.o dec_png.o
 endif
 

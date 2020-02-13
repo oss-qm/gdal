@@ -1670,55 +1670,26 @@ dnl ---------------------------------------------------------------------------
 dnl Select a PNG Library to use, or disable driver.
 dnl ---------------------------------------------------------------------------
 
-AC_ARG_WITH([png], [  --with-png[=ARG]        Include PNG support (ARG=internal, no or path)],,)
-
-AC_MSG_CHECKING([for libpng])
+AC_ARG_WITH([png], [  --with-png              Include PNG support],,)
 
 if test "$with_png" = "no" ; then
-
-  PNG_SETTING=no
-
-  echo "png support disabled."
-
-elif test "$with_png" = "yes" -o "$with_png" = "" ; then
-
-  AC_CHECK_LIB([png], [png_set_IHDR], [PNG_SETTING=external], [PNG_SETTING=internal], [$LIBS])
-  AC_CHECK_HEADERS([png.h])
-
-  if test "$PNG_SETTING" = "external" -a "$ac_cv_header_png_h" = "no" ; then
-    PNG_SETTING=internal
-  fi
-  if test "$PNG_SETTING" = "external" ; then
-    LIBS="-lpng $LIBS"
-    echo "using pre-installed libpng."
-  else
-    echo "using internal png code."
-  fi
-
-elif test "$with_png" = "internal" ; then
-
-  PNG_SETTING=internal
-
-  echo "using internal png code."
-
+    PNG_SETTING="no"
+    echo "png support disabled."
 else
+    PKG_CHECK_MODULES([PNG], [libpng])
+    LIBS="$PNG_LIBS $LIBS"
+    PNG_SETTING="yes"
+    echo "png support enabled."
 
-  PNG_SETTING=external
-  LIBS="-L$with_png -L$with_png/lib -lpng $LIBS"
-  EXTRA_INCLUDES="-I$with_png -I$with_png/include $EXTRA_INCLUDES"
-
-  echo "using libpng from $with_png."
-
+    OPT_GDAL_FORMATS="png $OPT_GDAL_FORMATS"
+    if test "x$INTERNAL_FORMAT_grib_ENABLED" = "xyes"; then
+        GDALFORMATS_ENABLED="$GDALFORMATS_ENABLED grib"
+    fi
 fi
 
 AC_SUBST([PNG_SETTING], [$PNG_SETTING])
-
-if test "$PNG_SETTING" != "no" ; then
-  OPT_GDAL_FORMATS="png $OPT_GDAL_FORMATS"
-  if test "x$INTERNAL_FORMAT_grib_ENABLED" = "xyes"; then
-  	GDALFORMATS_ENABLED="$GDALFORMATS_ENABLED grib"
-  fi
-fi
+AC_SUBST([PNG_LIBS])
+AC_SUBST([PNG_CFLAGS])
 
 dnl ---------------------------------------------------------------------------
 dnl Enable DDS driver.
