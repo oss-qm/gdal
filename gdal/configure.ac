@@ -938,30 +938,6 @@ fi
 AC_SUBST(RENAME_INTERNAL_SHAPELIB_SYMBOLS,$with_rename_internal_shapelib_symbols)
 
 
-dnl ---------------------------------------------------------------------------
-dnl Check if user requests /usr/local to be included.
-dnl ---------------------------------------------------------------------------
-
-AC_MSG_CHECKING([for local include/lib path])
-
-AC_ARG_WITH(local,[  --with-local[=dir]      Include /usr/local or other local tree for INCLUDE/LIBS],,)
-
-if test "$with_local" != "no" -a "$with_local" != "" ; then
-
-  if test "$with_local" = "yes" ; then
-    ADD_PREFIX=/usr/local
-  else
-    ADD_PREFIX=$with_local
-  fi
-
-  AC_MSG_RESULT(adding $ADD_PREFIX)
-
-  LIBS="$LIBS -L$ADD_PREFIX/lib"
-  CPPFLAGS="$CPPFLAGS -I$ADD_PREFIX/include"
-else
-  AC_MSG_RESULT([none])
-fi
-
 dnl ---------------------------------------------------------------------
 dnl ENABLE THREADS ONLY IF REQUESTED.
 dnl ---------------------------------------------------------------------
